@@ -1,11 +1,13 @@
 package com.gojek.daggermultimodulelibrary
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.gojek.daggermultimodulelibrary.databinding.ActivityMainBinding
+import com.gojek.detail_screen.DetailScreenActivity
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -13,12 +15,10 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as MainApplication).applicationComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
-
-        (application as MainApplication).applicationComponent.inject(this)
-
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private fun initAction() {
         binding.btnDetailScreen.setOnClickListener {
             viewModel.setUser(name = "Abdul", age = 21)
+            val intentToDetailScreen = Intent(this, DetailScreenActivity::class.java)
+            startActivity(intentToDetailScreen)
         }
     }
 }
