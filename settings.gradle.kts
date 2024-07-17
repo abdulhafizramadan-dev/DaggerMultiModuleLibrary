@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Dagger Multi Module Library"
 include(":app")
+include(":detail-screen")
+include(":core")
